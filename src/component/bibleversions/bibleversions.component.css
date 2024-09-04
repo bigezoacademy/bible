@@ -1,0 +1,10 @@
+.form-control {
+  border: 0;
+  border-bottom: 2px solid #000000;
+  border-radius: 0;
+}
+
+.text {
+  background-color: #fff9ea;
+  border-radius: 15px;
+}

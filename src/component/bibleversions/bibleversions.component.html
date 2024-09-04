@@ -1,0 +1,167 @@
+<div *ngIf="showBibleVerseBool" class="py-2">
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <button class="btn btn-dark m-2" (click)="toChapter()">
+        Full Chapter
+      </button>
+      <h2 class="text-info display-1 fw-bold text-center">Bible Verse</h2>
+      <div class="text-center p-3">
+        <form>
+          <div class="pt-1 row">
+            <div class="col-6">
+              <select
+                [(ngModel)]="version"
+                name="version"
+                class="form-control text-center text-center"
+              >
+                <option value="" disabled selected>Select Bible Version</option>
+                <option *ngFor="let version of versions" [value]="version">
+                  KJV
+                </option>
+              </select>
+            </div>
+            <div class="col-6">
+              <input
+                type="text"
+                [(ngModel)]="book"
+                name="book"
+                placeholder="Book"
+                class="form-control text-center"
+              />
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <p class="pt-1">
+                <input
+                  type="text"
+                  [(ngModel)]="chapter"
+                  name="chapter"
+                  placeholder="Chapter"
+                  class="form-control text-center"
+                />
+              </p>
+            </div>
+            <div class="col-6">
+              <p class="pt-1">
+                <input
+                  type="text"
+                  [(ngModel)]="verse"
+                  name="verse"
+                  placeholder="Verse"
+                  class="form-control text-center"
+                />
+              </p>
+            </div>
+          </div>
+          <p class="pt-1">
+            <button
+              class="btn btn-dark btn-lg m-1"
+              type="reset"
+              (click)="clearText()"
+            >
+              Clear
+            </button>
+            <button
+              type="button"
+              class="btn-lg btn btn-info m-1"
+              (click)="showVerse()"
+            >
+              Show Verse
+            </button>
+          </p>
+        </form>
+      </div>
+
+      <div *ngIf="bibleData && bibleData.text">
+        <p class="p-3 h3 fw-normal text text-center">
+          <strong>{{ bibleData.text }}</strong
+          >:
+        </p>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+  </div>
+</div>
+
+<div *ngIf="showBibleChapterBool" class="row py-5">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    <button class="btn btn-dark m-2" (click)="toVerse()">One Verse</button>
+    <h2 class="text-danger display-1 fw-bold text-center">Bible Chapter</h2>
+    <div class="text-center p-3">
+      <form>
+        <div class="pt-1 row">
+          <div class="col-6">
+            <select
+              [(ngModel)]="version"
+              name="version"
+              class="form-control text-center text-center"
+            >
+              <option value="" disabled selected>Select Bible Version</option>
+              <option *ngFor="let version of versions" [value]="version">
+                {{ version }}
+              </option>
+            </select>
+          </div>
+          <div class="col-6">
+            <input
+              type="text"
+              [(ngModel)]="book"
+              name="book"
+              placeholder="Book"
+              class="form-control text-center"
+            />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <p class="pt-1">
+              <input
+                type="text"
+                [(ngModel)]="chapter"
+                name="chapter"
+                placeholder="Chapter"
+                class="form-control text-center"
+              />
+            </p>
+          </div>
+        </div>
+        <p class="pt-1">
+          <button
+            class="btn btn-dark btn-lg m-1"
+            type="reset"
+            (click)="clearText()"
+          >
+            Clear
+          </button>
+          <button
+            type="button"
+            class="btn-lg btn btn-danger m-1"
+            (click)="showChapter()"
+          >
+            Show Chapter
+          </button>
+        </p>
+      </form>
+    </div>
+
+    <!-- Display Bible Chapter -->
+    <div class="bible-chapter p-3" *ngIf="showBibleChapterBool">
+      <h2>Chapter Data:</h2>
+      <div *ngIf="bibleChapter && bibleChapter.length > 0; else noData">
+        <div *ngFor="let item of bibleChapter">
+          <h3>Verse {{ item.verse }}</h3>
+          <p>{{ item.text }}</p>
+        </div>
+      </div>
+      <ng-template #noData>
+        <p class="m-1 alert alert-danger">No chapter data available.</p>
+      </ng-template>
+    </div>
+  </div>
+  <div class="col-md-3"></div>
+</div>
