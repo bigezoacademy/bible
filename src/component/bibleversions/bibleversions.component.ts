@@ -199,8 +199,12 @@ export class BibleversionsComponent implements OnInit {
         title: 'Book Changed',
         text: `You are now reading the Book of ${this.book}.`,
         icon: 'info',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
+        customClass: {
+          confirmButton: 'custom-confirm-button' // Apply the custom class
+        }
       });
+      
     } else {
       console.log('Reached the end of the Bible');
     }
