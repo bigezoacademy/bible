@@ -5,6 +5,7 @@
       <button class="btn btn-dark m-2 d-none" (click)="toChapter()">
         Full Chapter
       </button>
+
       <h2 class="text-info display-1 fw-bold text-center d-none d-md-block">
         <ng-container *ngIf="!book || !chapter || !verse; else showDetails">
           Read Bible
@@ -95,8 +96,8 @@
 
       <div *ngIf="bibleData && bibleData.text">
         <p class="p-3 p-md-5 h2 fw-normal text text-center">
-          <strong>{{ bibleData.text }}</strong
-          >:
+          <strong>{{ bibleData.text }}</strong>
+          <i class="bi ms-2 bi-copy text-secondary d-none"></i>
         </p>
         <p class="py-3 text-center">
           <button
