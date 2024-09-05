@@ -51,18 +51,28 @@ export class BibleversionsComponent implements OnInit {
   }
 
   showVerse(): void {
-    this.show = true;
-    this.bibleService.getBibleData(this.version.toLowerCase(), this.book.toLowerCase(), this.chapter.toLowerCase(), this.verse.toLowerCase()).subscribe(
+    if (!this.version || !this.book || !this.chapter || !this.verse) {
+      console.error('One or more required fields are missing.');
+      return; // Exit early if any required field is missing
+    }
+  
+    // Ensure that we are not calling toLowerCase() on null or undefined
+    const version = this.version ? this.version.toLowerCase() : '';
+    const book = this.book ? this.book.toLowerCase() : '';
+    const chapter = this.chapter ? this.chapter.toLowerCase() : '';
+    const verse = this.verse ? this.verse.toLowerCase() : '';
+  
+    this.bibleService.getBibleData(version, book, chapter, verse).subscribe(
       data => {
         this.bibleData = data;
         console.log(this.bibleData);
-     
       },
       error => {
         console.error('Error fetching Bible data', error);
       }
     );
   }
+  
 
   // Handles moving to the next verse, next chapter, or next book if needed
   nextVerse(currentverse: string): void {
