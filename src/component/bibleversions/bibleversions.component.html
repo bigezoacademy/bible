@@ -1,7 +1,7 @@
 <div *ngIf="showBibleVerseBool" class="py-2">
   <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
       <button class="btn btn-dark m-2 d-none" (click)="toChapter()">
         Full Chapter
       </button>
@@ -76,7 +76,7 @@
       </div>
 
       <div *ngIf="bibleData && bibleData.text">
-        <p class="p-3 h3 fw-normal text text-center">
+        <p class="p-3 p-md-5 h2 fw-normal text text-center">
           <strong>{{ bibleData.text }}</strong
           >:
         </p>
@@ -96,7 +96,7 @@
         </p>
       </div>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-2"></div>
   </div>
 </div>
 

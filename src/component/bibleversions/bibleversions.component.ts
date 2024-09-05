@@ -147,29 +147,42 @@ export class BibleversionsComponent implements OnInit {
     let prevChapterInt = currentChapterInt - 1;
   
     if (prevChapterInt > 0) {
-      this.bibleService.getBibleChapter(this.version.toLowerCase(), this.book.toLowerCase(), prevChapterInt.toString().toLowerCase()).subscribe(
+      // Fetch the previous chapter data to get the number of verses
+      this.bibleService.getBibleData(this.version.toLowerCase(), this.book.toLowerCase(), prevChapterInt.toString().toLowerCase(), '1').subscribe(
         chapterData => {
-          let lastVerse = chapterData.results.length.toString();
-          this.chapter = prevChapterInt.toString();
-          this.verse = lastVerse;
-          this.showVerse();
+          // Check if chapterData contains the verses
+          if (chapterData && Array.isArray(chapterData.results)) {
+            let numberOfVerses = chapterData.results.length; // Number of verses in the previous chapter
+            
+            if (numberOfVerses > 0) {
+              this.chapter = prevChapterInt.toString();
+              this.verse = numberOfVerses.toString(); // Set the verse to the last one of the previous chapter
+              this.showVerse(); // Fetch and display the verse
   
-          // Show alert for new chapter
-          Swal.fire({
-            title: 'Chapter Changed',
-            text: `You are now in Chapter ${this.chapter}.`,
-            icon: 'info',
-            confirmButtonText: 'OK'
-          });
+              // Show alert for new chapter
+              Swal.fire({
+                title: 'Chapter Changed',
+                text: `You are now in Chapter ${this.chapter}.`,
+                icon: 'info',
+                confirmButtonText: 'OK'
+              });
+            } else {
+              console.error('No verses found in the previous chapter');
+            }
+          } else {
+            console.error('Invalid data format for previous chapter');
+          }
         },
         error => {
-          this.moveToPreviousBook();
+          console.error('Error fetching previous chapter data', error);
+          this.moveToPreviousBook(); // Move to the previous book if there is an error
         }
       );
     } else {
-      this.moveToPreviousBook();
+      this.moveToPreviousBook(); // Move to the previous book if there is no previous chapter
     }
   }
+  
   
 
   moveToNextBook(): void {
@@ -200,32 +213,58 @@ export class BibleversionsComponent implements OnInit {
       let prevBook = this.books[currentBookIndex - 1];
       this.book = prevBook;
   
-      // Fetch the first chapter of the previous book
-      this.bibleService.getBibleChapter(this.version.toLowerCase(), prevBook.toLowerCase(), '1').subscribe(
+      // Fetch the first chapter of the previous book to determine the number of chapters
+      this.bibleService.getBibleData(this.version.toLowerCase(), prevBook.toLowerCase(), '1', '1').subscribe(
         chapterData => {
-          let lastChapterInt = chapterData.results.length;
-          let lastChapter = lastChapterInt.toString();
+          console.log('Previous Book\'s First Chapter Data:', chapterData); // Log the full response
   
-          // Fetch the last verse of the last chapter
-          this.bibleService.getBibleChapter(this.version.toLowerCase(), prevBook.toLowerCase(), lastChapter).subscribe(
-            lastChapterData => {
-              let lastVerse = lastChapterData.results.length.toString();
-              this.chapter = lastChapter;
-              this.verse = lastVerse;
+          // Ensure chapterData and results are defined and are arrays
+          if (chapterData && Array.isArray(chapterData.results)) {
+            let numberOfChapters = chapterData.results.length;
+  
+            if (numberOfChapters > 0) {
+              // Assuming `numberOfChapters` is the count of chapters
+              let lastChapter = numberOfChapters.toString();
+  
+              this.bibleService.getBibleChapter(this.version.toLowerCase(), prevBook.toLowerCase(), lastChapter).subscribe(
+                lastChapterData => {
+                  console.log('Last Chapter Data:', lastChapterData); // Log the full response
+  
+                  // Ensure lastChapterData and results are defined and are arrays
+                  if (lastChapterData && Array.isArray(lastChapterData.results)) {
+                    let numberOfVerses = lastChapterData.results.length;
+  
+                    if (numberOfVerses > 0) {
+                      let lastVerse = numberOfVerses.toString();
+                      this.chapter = lastChapter;
+                      this.verse = lastVerse;
+                      this.showVerse(); // Fetch and display the verse
+  
+                      // Show alert for new book
+                      Swal.fire({
+                        title: 'Book Changed',
+                        text: `You are now reading the Book of ${this.book}.`,
+                        icon: 'info',
+                        confirmButtonText: 'OK'
+                      });
+                    } else {
+                      console.error('No verses found in the last chapter of the previous book');
+                    }
+                  } else {
+                    console.error('Invalid data format for last chapter');
+                  }
+                },
+                error => {
+                  console.error('Error fetching last chapter data', error);
+                }
+              );
+            } else {
               this.showVerse();
-  
-              // Show alert for new book
-              Swal.fire({
-                title: 'Book Changed',
-                text: `You are now reading the Book of ${this.book}.`,
-                icon: 'info',
-                confirmButtonText: 'OK'
-              });
-            },
-            error => {
-              console.error('Error fetching the last verse of the last chapter', error);
+              console.error('No chapters found in the previous book');
             }
-          );
+          } else {
+            console.error('Invalid data format for previous book\'s first chapter');
+          }
         },
         error => {
           console.error('Error fetching previous book\'s first chapter', error);
@@ -242,7 +281,6 @@ export class BibleversionsComponent implements OnInit {
     }
   }
   
- 
 
 
 
