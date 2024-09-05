@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-3"></div>
     <div class="col-md-6">
-      <button class="btn btn-dark m-2 d-none" (click)="toChapter()">
+      <button class="btn btn-dark m-2" (click)="toChapter()">
         Full Chapter
       </button>
       <h2 class="text-info display-1 fw-bold text-center">Bible Verse</h2>
@@ -10,25 +10,29 @@
         <form>
           <div class="pt-1 row">
             <div class="col-6">
+              <p class="h2 text-secondary">KJV</p>
               <select
                 [(ngModel)]="version"
                 name="version"
-                class="form-control text-center text-center"
+                class="form-control text-center text-center d-none"
               >
                 <option value="" disabled selected>Select Bible Version</option>
                 <option *ngFor="let version of versions" [value]="version">
-                  KJV
+                  {{ version }}
                 </option>
               </select>
             </div>
             <div class="col-6">
-              <input
-                type="text"
+              <select
                 [(ngModel)]="book"
                 name="book"
-                placeholder="Book"
                 class="form-control text-center"
-              />
+              >
+                <option value="" disabled selected>Select Book</option>
+                <option *ngFor="let book of books" [value]="book">
+                  {{ book }}
+                </option>
+              </select>
             </div>
           </div>
 
@@ -57,16 +61,12 @@
             </div>
           </div>
           <p class="pt-1">
-            <button
-              class="btn btn-dark btn-lg m-1"
-              type="reset"
-              (click)="clearText()"
-            >
+            <button class="btn btn-dark m-1" type="reset" (click)="clearText()">
               Clear
             </button>
             <button
               type="button"
-              class="btn-lg btn btn-info m-1"
+              class="btn btn-info m-1"
               (click)="showVerse()"
             >
               Show Verse
@@ -79,6 +79,20 @@
         <p class="p-3 h3 fw-normal text text-center">
           <strong>{{ bibleData.text }}</strong
           >:
+        </p>
+        <p class="py-3 text-center">
+          <button
+            class="btn btn-secondary m-1"
+            (click)="previousVerse(bibleData.verse)"
+          >
+            Back
+          </button>
+          <button
+            class="btn btn-success m-1"
+            (click)="nextVerse(bibleData.verse)"
+          >
+            Next >>
+          </button>
         </p>
       </div>
     </div>
@@ -131,16 +145,12 @@
           </div>
         </div>
         <p class="pt-1">
-          <button
-            class="btn btn-dark btn-lg m-1"
-            type="reset"
-            (click)="clearText()"
-          >
+          <button class="btn btn-dark m-1" type="reset" (click)="clearText()">
             Clear
           </button>
           <button
             type="button"
-            class="btn-lg btn btn-danger m-1"
+            class="btn btn-danger m-1"
             (click)="showChapter()"
           >
             Show Chapter
