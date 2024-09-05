@@ -5,7 +5,25 @@
       <button class="btn btn-dark m-2 d-none" (click)="toChapter()">
         Full Chapter
       </button>
-      <h2 class="text-info display-1 fw-bold text-center">Bible Verse</h2>
+      <h2 class="text-info display-1 fw-bold text-center d-none d-md-block">
+        <ng-container *ngIf="!book || !chapter || !verse; else showDetails">
+          Read Bible
+        </ng-container>
+        <ng-template #showDetails>
+          {{ book }} {{ chapter }}:{{ verse }}
+        </ng-template>
+      </h2>
+      <!-- Header for small screens -->
+      <h2 class="text-info h1 fw-bold text-center d-md-none">
+        <ng-container
+          *ngIf="!book || !chapter || !verse; else showDetailsSmall"
+        >
+          Read Bible
+        </ng-container>
+        <ng-template #showDetailsSmall>
+          {{ book }} {{ chapter }}:{{ verse }}
+        </ng-template>
+      </h2>
       <div class="text-center p-3">
         <form>
           <div class="pt-1 row">
