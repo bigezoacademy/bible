@@ -50,9 +50,32 @@ export class BibleversionsComponent implements OnInit {
     this.showBibleVerseBool = true;
   }
 
+ 
+
   showVerse(): void {
     if (!this.version || !this.book || !this.chapter || !this.verse) {
-      console.error('One or more required fields are missing.');
+      let missingFields = [];
+  
+   /*    if (!this.version) {
+        missingFields.push('Version');
+      } */
+      if (!this.book) {
+        missingFields.push('Book');
+      }
+      if (!this.chapter) {
+        missingFields.push('Chapter');
+      }
+      if (!this.verse) {
+        missingFields.push('Verse');
+      }
+  
+      // Show the alert with the missing fields
+      Swal.fire({
+        icon: 'error',
+        title: 'Missing Fields',
+        text: `${missingFields.join(', ')}`,
+      });
+  
       return; // Exit early if any required field is missing
     }
   
