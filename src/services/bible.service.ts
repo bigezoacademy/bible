@@ -15,8 +15,8 @@ export class BibleService {
     const url = `${this.baseUrl}/${version}/books/${book}/chapters/${chapter}/verses/${verse}.json`;
     return this.http.get<any>(url);
   }
-  getBibleChapter(version: string, book: string, chapter: string):Observable<any>{
-    const url=`${this.baseUrl}/${version}/books/${book}/chapters/${chapter}.json`;
+  getChapter(version:string,book: string, chapter: string): Observable<any> {
+    const url = `${this.baseUrl}/${version}/books/${book}/chapters/${chapter}.json`;
     return this.http.get<any>(url);
   }
 }

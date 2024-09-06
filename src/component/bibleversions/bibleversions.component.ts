@@ -240,7 +240,7 @@ export class BibleversionsComponent implements OnInit {
               // Assuming `numberOfChapters` is the count of chapters
               let lastChapter = numberOfChapters.toString();
   
-              this.bibleService.getBibleChapter(this.version.toLowerCase(), prevBook.toLowerCase(), lastChapter).subscribe(
+              this.bibleService.getBibleData(this.version.toLowerCase(), prevBook.toLowerCase(), lastChapter,'1').subscribe(
                 lastChapterData => {
                   console.log('Last Chapter Data:', lastChapterData); // Log the full response
   
@@ -300,7 +300,7 @@ export class BibleversionsComponent implements OnInit {
 
   showChapter(): void {
     this.show = true;
-    this.bibleService.getBibleChapter(this.version.toLowerCase(), this.book.toLowerCase(), this.chapter.toLowerCase()).subscribe(
+    this.bibleService.getChapter(this.version.toLowerCase(), this.book.toLowerCase(), this.chapter.toLowerCase()).subscribe(
       response => {
         console.log('API Response:', response);
         const chapterData = response.results;
