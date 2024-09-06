@@ -57,17 +57,6 @@
 
           <div class="row">
             <div class="col-6">
-              <p class="pt-1">
-                <input
-                  type="text"
-                  [(ngModel)]="verse"
-                  name="verse"
-                  placeholder="Verse"
-                  class="form-control text-center"
-                />
-              </p>
-            </div>
-            <div class="col-6">
               <p class="h2 text-secondary">KJV</p>
               <select
                 [(ngModel)]="version"
@@ -79,6 +68,17 @@
                   {{ version }}
                 </option>
               </select>
+            </div>
+            <div class="col-6">
+              <p class="pt-1">
+                <input
+                  type="text"
+                  [(ngModel)]="verse"
+                  name="verse"
+                  placeholder="Verse"
+                  class="form-control text-center"
+                />
+              </p>
             </div>
           </div>
           <p class="pt-1">
